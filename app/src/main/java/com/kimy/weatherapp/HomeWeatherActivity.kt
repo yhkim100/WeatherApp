@@ -2,6 +2,7 @@ package com.kimy.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -48,7 +49,7 @@ class HomeWeatherActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         //Set up Observers
-        mainWeatherViewModel.getForecastWeatherDataByZip()?.observe(this, Observer {
+        mainWeatherViewModel.getForecastWeatherData("27617")?.observe(this, Observer {
             if(it != null) {
                 //Update values in adapter which will trigger UI updates
                 forecastAdapter.setForecastWeatherDataModel(it)
@@ -56,15 +57,25 @@ class HomeWeatherActivity : AppCompatActivity() {
             }
         })
 
-        mainWeatherViewModel.getCurrentWeatherData()?.observe(this, Observer {
+        mainWeatherViewModel.getCurrentWeatherData("27617")?.observe(this, Observer {
             if(it!= null) {
                 //Notify others of new CurrentWeatherModel
             }
         })
 
         getForecastBtn.setOnClickListener {
-            mainWeatherViewModel.getCurrentWeatherData()
+            mainWeatherViewModel.getCurrentWeatherData("27617")
         }
+
+        //TODO Resolve keyboard dismissal
+        /*
+        getForecastBtn.setOnFocusChangeListener { view, b -> if(!b) hideKeyboard() }
+
+        fun hideKeyboard() {
+            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(yourEditText.getWindowToken(), 0);
+        }
+        */
 
     }
 

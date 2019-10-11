@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="weather_app_id">1dd64ab3ba579f4f9082c4d09641a761</string>
+    <string name="input_text_search_hint">Search Weather by Zip or City</string>
+    <string name="search_btn_text">Search</string>
 </resources>
