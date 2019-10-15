@@ -2,9 +2,7 @@ package com.kimy.weatherapp
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kimy.weatherapp.databinding.ForecastWeatherListItemBinding
 
@@ -25,8 +23,13 @@ class ForecastWeatherDataAdapter( private val context: Context) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ForecastWeatherViewHolder, position: Int) {
+        val cellData = ForecastWeatherCellData()
+        cellData.indexPosition = position
         val weatherInfo = mForecastWeatherDataModelList.first().list[position]
-        holder.bind(weatherInfo)
+        cellData.dataModel = mForecastWeatherDataModelList.first()
+        cellData.imageURL = "http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}@2x.png"
+
+        holder.bind(weatherInfo, cellData)
     }
 
     override fun getItemCount(): Int {
@@ -39,8 +42,9 @@ class ForecastWeatherDataAdapter( private val context: Context) : RecyclerView.A
 
     class ForecastWeatherViewHolder(var forecastWeatherListItemBinding: ForecastWeatherListItemBinding) : RecyclerView.ViewHolder(forecastWeatherListItemBinding.root) {
 
-        fun bind(weatherInfo :DetailedForecastWeatherDataModel) {
+        fun bind(weatherInfo :DetailedForecastWeatherDataModel, cellData: ForecastWeatherCellData) {
             forecastWeatherListItemBinding.detailedForecastWeatherDataModel = weatherInfo
+            forecastWeatherListItemBinding.forecastWeatherCellData = cellData
         }
     }
 }

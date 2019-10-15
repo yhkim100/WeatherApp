@@ -54,61 +54,89 @@
                 android:layout_height="186dp"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/frameLayout"
-                    android:layout_width="212dp"
-                    android:layout_height="178dp"
-                    android:layout_gravity="center_horizontal"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/weatherImageView"
-                        android:layout_width="178dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:contentDescription="weather icon"
-                        android:scaleType="centerCrop"
-                        app:imageUrl="@{MainWeatherViewModel.weatherURL}" />
+                    <FrameLayout
+                        android:id="@+id/frameLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical">
 
-                </FrameLayout>
+                        <ImageView
+                            android:id="@+id/weatherImageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:contentDescription="weather icon"
+                            android:scaleType="centerCrop"
+                            app:imageUrl="@{MainWeatherViewModel.weatherURL}" />
 
-                <TextView
-                    android:id="@+id/currentTempText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/frameLayout"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
 
-                <TextView
-                    android:id="@+id/locationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/frameLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/currentTempText" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/timestampUpdateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/frameLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/locationText" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/locationText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="location" />
+
+                            <TextView
+                                android:id="@+id/currentTempText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="16dp"
+                                android:text="current temp"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/weatherDescriptionTxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="description" />
+
+                            <TextView
+                                android:id="@+id/timestampUpdateText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="timestamp" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/progressbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentWeatherCardView">

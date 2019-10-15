@@ -1,8 +1,11 @@
 package com.kimy.weatherapp
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kimy.weatherapp.databinding.ActivityHomeWeatherBinding
+import kotlinx.android.synthetic.main.activity_home_weather.*
 
 
 class HomeWeatherActivity : AppCompatActivity() {
@@ -48,7 +52,7 @@ class HomeWeatherActivity : AppCompatActivity() {
         recyclerView.adapter = forecastAdapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        //Set up Observers
+        //Set up Observers and load default values
         mainWeatherViewModel.getForecastWeatherData("27617")?.observe(this, Observer {
             if(it != null) {
                 //Update values in adapter which will trigger UI updates
@@ -59,24 +63,50 @@ class HomeWeatherActivity : AppCompatActivity() {
 
         mainWeatherViewModel.getCurrentWeatherData("27617")?.observe(this, Observer {
             if(it!= null) {
-                //Notify others of new CurrentWeatherModel
+                //Update UI and Notify others of new CurrentWeatherModel
+                binding.locationText.setText("${it.location}")
+                binding.weatherDescriptionTxt.setText("${it.weather[0].main}, ${it.weather[0].description}")
+
+                val sdf = java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+                val date = java.util.Date(it.dt * 1000)
+                val format = sdf.format(date)
+                binding.timestampUpdateText.setText(format)
+
+                //TODO: Switch between
+                val tempF = UnitConverter().kelvinToFarenheit(it.main["temp"])
+                currentTempText.setText("%.2f".format(tempF) + " F")
             }
         })
 
         getForecastBtn.setOnClickListener {
-            mainWeatherViewModel.getCurrentWeatherData("27617")
+            mainWeatherViewModel.getCurrentWeatherData(input = inputLocationTxtBox.text.toString())
+            mainWeatherViewModel.getForecastWeatherData(input = inputLocationTxtBox.text.toString())
         }
 
-        //TODO Resolve keyboard dismissal
-        /*
-        getForecastBtn.setOnFocusChangeListener { view, b -> if(!b) hideKeyboard() }
 
-        fun hideKeyboard() {
-            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(yourEditText.getWindowToken(), 0);
-        }
-        */
+        //Dismiss Keyboard listeners
+        currentWeatherCardView.setOnTouchListener(object: View.OnTouchListener{
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                hideKeyboard(p0)
+                return false
+            }
+        })
+        inputLocationTxtBox.setOnFocusChangeListener(object: View.OnFocusChangeListener{
+            override fun onFocusChange(p0: View?, p1: Boolean) {
+                if(!p1) hideKeyboard(view = p0)
+            }
+        })
+        recyclerView.setOnTouchListener(object: View.OnTouchListener{
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                hideKeyboard(p0)
+                return false
+            }
+        })
+    }
 
+    fun hideKeyboard(view: View?) {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
 

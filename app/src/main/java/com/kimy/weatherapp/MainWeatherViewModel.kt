@@ -20,7 +20,7 @@ class MainWeatherViewModel : ViewModel() {
     fun  getCurrentWeatherData(input: String) : MutableLiveData<CurrentWeatherDataModel>? {
         val call : Call<CurrentWeatherDataModel>
         if(input.toIntOrNull() != null) {
-            call = ApiClient.getClient.getCurrentWeatherByZip(zipCode = input, appId = apiKey)
+            call = ApiClient.getClient.getCurrentWeatherByZip(zipCode = input+",us", appId = apiKey)
         } else {
             call = ApiClient.getClient.getCurrentWeatherByLocation(location = input, appId = apiKey)
         }
@@ -47,7 +47,7 @@ class MainWeatherViewModel : ViewModel() {
     fun getForecastWeatherData(input: String) : MutableLiveData<ForecastWeatherDataModel>? {
         val call : Call<ForecastWeatherDataModel>
         if(input.toIntOrNull() != null) {
-            call = ApiClient.getClient.getForecastWeatherByZip(zipCode = input, appId = apiKey)
+            call = ApiClient.getClient.getForecastWeatherByZip(zipCode = input+",us", appId = apiKey)
         } else {
             call = ApiClient.getClient.getForecastWeatherByLocation(location = input, appId = apiKey)
         }

@@ -22,8 +22,29 @@ data class CurrentWeatherDataModel(
     val visibility: Int,
     @Expose
     @SerializedName("wind")
-    val wind: Map<String, Float>
-
+    val wind: Map<String, Float>,
+    @Expose
+    @SerializedName("dt")
+    val dt: Long,
+    @Expose
+    @SerializedName("name")
+    val location: String
 
 )
 
+data class WeatherDataModel(
+
+    @Expose
+    @SerializedName("id")
+    val id: Int,
+    @Expose
+    @SerializedName("main")
+    val main: String,
+    @Expose
+    @SerializedName("description")
+    val description: String,
+    @Expose
+    @SerializedName("icon")
+    val icon: String
+
+)

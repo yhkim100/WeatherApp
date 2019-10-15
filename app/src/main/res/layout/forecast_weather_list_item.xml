@@ -7,18 +7,101 @@
         <variable
             name="DetailedForecastWeatherDataModel"
             type="com.kimy.weatherapp.DetailedForecastWeatherDataModel" />
+
+        <variable
+            name="ForecastWeatherCellData"
+            type="com.kimy.weatherapp.ForecastWeatherCellData" />
+
+        <variable
+            name="MainWeatherViewModel"
+            type="com.kimy.weatherapp.MainWeatherViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#C7CEFD"
+        app:cardCornerRadius="2dp">
 
-        <TextView
-            android:maxLines="1"
-            android:id="@+id/title"
-            android:text="@{DetailedForecastWeatherDataModel.dt_txt}"
-            android:layout_gravity="center"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="186dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="25dp">
+
+                    <ImageView
+                        android:id="@+id/weatherImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="weather icon"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{ForecastWeatherCellData.imageURL}" />
+
+                </FrameLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/locationText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{ForecastWeatherCellData.location}" />
+
+                        <TextView
+                            android:id="@+id/currentTempText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:text="@{ForecastWeatherCellData.temperautreF}"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/weatherDescriptionTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{ForecastWeatherCellData.description}"/>
+
+                        <TextView
+                            android:id="@+id/timestampUpdateText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@{ForecastWeatherCellData.timestamp}" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
